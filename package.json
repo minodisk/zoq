@@ -1,0 +1,56 @@
+{
+  "name": "zoq",
+  "description": "Convert Zod Schema to BigQuery Schema",
+  "version": "0.0.0",
+  "license": "Apache-2",
+  "author": "minodisk",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/minodisk/zoq.git"
+  },
+  "bugs": {
+    "url": "https://github.com/minodisk/zoq/issues"
+  },
+  "homepage": "https://github.com/minodisk/zoq#readme",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "esbuild ./src/index.ts --bundle --outfile=../lib/index.js --format=cjs --platform=node",
+    "build-watch": "npm run build -- --watch",
+    "prepare": "run-p build",
+    "lint": "eslint \"./src/**/*.ts\"",
+    "check": "run-p check:*",
+    "check:tsc": "tsc",
+    "check:format": "npm run format -- --check",
+    "fix": "run-p fix:*",
+    "fix:lint": "npm run lint -- --fix",
+    "fix:format": "npm run format -- --write",
+    "test": "jest --silent=false",
+    "test-coverage": "npm run test -- --coverage --coverageDirectory ../../coverage/core",
+    "test-watch": "npm run test -- --watchAll",
+    "format": "prettier src"
+  },
+  "devDependencies": {
+    "@google-cloud/bigquery": "^6.0.1",
+    "@types/jest": "^28.1.6",
+    "@typescript-eslint/eslint-plugin": "^5.31.0",
+    "@typescript-eslint/parser": "^5.31.0",
+    "cpx": "^1.5.0",
+    "esbuild": "^0.14.51",
+    "eslint": "^8.21.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-sonarjs": "^0.14.0",
+    "eslint-plugin-strict-dependencies": "^1.0.1",
+    "eslint-plugin-unused-imports": "^2.0.0",
+    "glob": "^8.0.3",
+    "jest": "^28.1.3",
+    "mkdirp": "^1.0.4",
+    "mocha": "^10.0.0",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.7.1",
+    "rimraf": "^3.0.2",
+    "ts-jest": "^28.0.7",
+    "typescript": "^4.7.4",
+    "zod": "^3.17.10"
+  }
+}

@@ -1,0 +1,113 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 12,
+    "sourceType": "module",
+    "project": "tsconfig.json"
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:import/recommended",
+    "prettier"
+  ],
+  "plugins": [
+    "@typescript-eslint",
+    "import",
+    "unused-imports",
+    "strict-dependencies",
+    "sonarjs"
+  ],
+  "rules": {
+    // Do with TypeScript
+    "no-undef": "off",
+
+    "sonarjs/no-ignored-return": "error",
+
+    // https://github.com/typescript-eslint/typescript-eslint/issues/2063#issuecomment-675156492
+    "@typescript-eslint/ban-types": [
+      "error",
+      {
+        "extendDefaults": true,
+        "types": {
+          "{}": false
+        }
+      }
+    ],
+    "@typescript-eslint/naming-convention": [
+      "warn",
+      {
+        "selector": "function",
+        "format": ["PascalCase", "camelCase"]
+      }
+    ],
+    "@typescript-eslint/semi": "warn",
+    "@typescript-eslint/no-floating-promises": "error",
+    "@typescript-eslint/no-invalid-void-type": "error",
+    "@typescript-eslint/consistent-type-imports": [
+      "error",
+      {
+        "prefer": "type-imports"
+      }
+    ],
+
+    // Use unused-imports/no-unused-vars
+    "@typescript-eslint/no-unused-vars": "off",
+
+    "no-useless-rename": "error",
+    "object-shorthand": "error",
+
+    "import/order": [
+      "error",
+      {
+        "groups": ["builtin", "external", "parent", "sibling", "index"],
+        "newlines-between": "never",
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": false
+        }
+      }
+    ],
+    "import/no-unresolved": "off",
+    "unused-imports/no-unused-imports": "error",
+    "unused-imports/no-unused-vars": [
+      "warn",
+      {
+        "vars": "all",
+        "varsIgnorePattern": "^_",
+        "args": "after-used",
+        "argsIgnorePattern": "^_"
+      }
+    ],
+    "curly": "error",
+    "eqeqeq": "error",
+    "no-throw-literal": "warn",
+    "semi": "off",
+
+    "strict-dependencies/strict-dependencies": [
+      "error",
+      [
+        {
+          "module": "src/pages",
+          "allowReferenceFrom": ["src/App.tsx"],
+          "allowSameModule": false
+        },
+        {
+          "module": "next/domain",
+          "allowReferenceFrom": ["src/pages"],
+          "allowSameModule": false
+        },
+        {
+          "module": "src/ui",
+          "allowReferenceFrom": ["src/domain"],
+          "allowSameModule": true
+        }
+      ],
+      {
+        "resolveRelativeImport": true
+      }
+    ]
+  },
+  "ignorePatterns": ["out", "dist", "**/*.d.ts"]
+}
