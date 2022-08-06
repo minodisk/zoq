@@ -14,7 +14,7 @@
   "homepage": "https://github.com/minodisk/zoq#readme",
   "main": "lib/index.js",
   "scripts": {
-    "build": "esbuild ./src/index.ts --bundle --outfile=../lib/index.js --format=cjs --platform=node",
+    "build": "esbuild ./src/index.ts --bundle --outfile=./lib/index.js --format=cjs --platform=node",
     "build-watch": "npm run build -- --watch",
     "prepare": "run-p build",
     "lint": "eslint \"./src/**/*.ts\"",
