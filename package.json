@@ -25,7 +25,7 @@
     "fix:lint": "npm run lint -- --fix",
     "fix:format": "npm run format -- --write",
     "test": "jest --silent=false",
-    "test-coverage": "npm run test -- --coverage --coverageDirectory ../../coverage/core",
+    "test-coverage": "npm run test -- --coverage --coverageDirectory ./coverage/core",
     "test-watch": "npm run test -- --watchAll",
     "format": "prettier src"
   },

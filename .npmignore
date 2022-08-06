@@ -1,5 +1,7 @@
 .github
 .vscode
+coverage
+node_modules
 jest.config.js
 src
 tsconfig.json
