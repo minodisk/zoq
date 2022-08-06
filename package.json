@@ -1,6 +1,6 @@
 {
   "name": "zoq",
-  "description": "Convert Zod Schema to BigQuery Schema",
+  "description": "Convert Zod to BigQuery Schema",
   "version": "0.0.2",
   "license": "Apache-2",
   "author": "minodisk",
@@ -14,7 +14,7 @@
   "homepage": "https://github.com/minodisk/zoq#readme",
   "main": "lib/index.js",
   "scripts": {
-    "build": "esbuild ./src/index.ts --bundle --outfile=./lib/index.js --format=cjs --platform=node",
+    "build": "esbuild ./src/index.ts --outfile=./lib/index.js --format=cjs --platform=node",
     "build-watch": "npm run build -- --watch",
     "prepare": "run-p build",
     "lint": "eslint \"./src/**/*.ts\"",

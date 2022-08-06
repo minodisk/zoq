@@ -2,6 +2,9 @@
 .vscode
 coverage
 node_modules
-jest.config.js
 src
+.eslintrc.json
+.gitignore
+.npmignore
+jest.config.json
 tsconfig.json
