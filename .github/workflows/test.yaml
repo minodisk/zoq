@@ -17,11 +17,7 @@ jobs:
           node-version: 16
       - name: Install dependencies
         run: npm ci
-      - name: Check
-        run: npm run check
-      - name: Lint
-        run: npm run lint
-      - name: Test
-        run: npm run test-coverage
-      - name: Coverage
+      - name: Validate source code
+        run: npm run validation
+      - name: Upload coverage
         uses: codecov/codecov-action@v2
