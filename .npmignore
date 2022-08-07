@@ -3,6 +3,8 @@
 coverage
 node_modules
 src
+lib/**/*.test.ts
+lib/**/*.test.d.ts
 .eslintrc.json
 .gitignore
 .npmignore
