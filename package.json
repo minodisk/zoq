@@ -1,5 +1,6 @@
 {
   "name": "zoq",
+  "displayName": "Zoq",
   "description": "Convert Zod to BigQuery Schema",
   "version": "0.0.4",
   "license": "Apache-2",

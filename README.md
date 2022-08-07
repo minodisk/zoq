@@ -1,4 +1,4 @@
-# zoq [![GitHub Actions](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fminodisk%2Fzoq%2Fbadge%3Fref%3Dmain&style=flat-square)](https://actions-badge.atrox.dev/minodisk/zoq/goto?ref=main) [![Codecov](https://img.shields.io/codecov/c/github/minodisk/zoq?style=flat-square)](https://app.codecov.io/gh/minodisk/zoq/)
+# Zoq [![GitHub Actions](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fminodisk%2Fzoq%2Fbadge%3Fref%3Dmain&style=flat-square)](https://actions-badge.atrox.dev/minodisk/zoq/goto?ref=main) [![NPM](https://img.shields.io/npm/v/zoq?style=flat-square)](https://www.npmjs.com/package/zoq) [![Codecov](https://img.shields.io/codecov/c/github/minodisk/zoq?style=flat-square)](https://app.codecov.io/gh/minodisk/zoq/)
 
 Convert [Zod](https://github.com/colinhacks/zod) to [BigQuery Schema](https://cloud.google.com/bigquery/docs/schemas).
 
@@ -42,6 +42,6 @@ async function createTable() {
 
   await new BigQuery()
     .dataset("dataset_id")
-    .createTable("table_id", { schema, });
+    .createTable("table_id", { schema });
 }
 ```
