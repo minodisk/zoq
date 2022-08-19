@@ -4,6 +4,7 @@ import type { ZodObject, ZodRawShape, ZodTypeAny } from "zod";
 export const convert = <T extends ZodRawShape>(
   type: ZodObject<T>
 ): Array<TableField> => {
+  console.log(type.shape);
   return Object.entries(type.shape)
     .map(([name, value]) => convertAny(name, value))
     .filter(isField);
@@ -39,6 +40,7 @@ const convertAny = (name: string, type: ZodTypeAny): TableField | undefined => {
           return;
       }
     }
+
     case "ZodArray": {
       const child = convertAny(name, type._def.type);
       if (!child) {
@@ -50,12 +52,14 @@ const convertAny = (name: string, type: ZodTypeAny): TableField | undefined => {
         mode: "REPEATED",
       };
     }
+
     case "ZodObject":
       return {
         name,
         type: "STRUCT",
         fields: convert(type as ZodObject<{}>),
       };
+
     case "ZodTuple":
       return {
         name,
@@ -66,6 +70,7 @@ const convertAny = (name: string, type: ZodTypeAny): TableField | undefined => {
           })
           .filter(isField),
       };
+
     case "ZodRecord":
     case "ZodMap":
       return {
@@ -77,6 +82,7 @@ const convertAny = (name: string, type: ZodTypeAny): TableField | undefined => {
           convertAny("value", type._def.valueType),
         ].filter(isField),
       };
+
     case "ZodSet": {
       const child = convertAny(name, type._def.valueType);
       if (!child) {
@@ -88,11 +94,13 @@ const convertAny = (name: string, type: ZodTypeAny): TableField | undefined => {
         mode: "REPEATED",
       };
     }
+
     case "ZodBoolean":
       return {
         name,
         type: "BOOL",
       };
+
     case "ZodNumber":
       if (
         type._def.checks.some(
@@ -108,16 +116,19 @@ const convertAny = (name: string, type: ZodTypeAny): TableField | undefined => {
         name,
         type: "NUMERIC",
       };
+
     case "ZodBigInt":
       return {
         name,
         type: "BIGNUMERIC",
       };
+
     case "ZodNaN":
       return {
         name,
         type: "NUMERIC",
       };
+
     case "ZodString": {
       const checks = (
         type._def.checks as Array<{ kind: string; regex: RegExp }>
@@ -139,17 +150,20 @@ const convertAny = (name: string, type: ZodTypeAny): TableField | undefined => {
         type: "STRING",
       };
     }
+
     case "ZodDate":
       return {
         name,
         type: "TIMESTAMP",
       };
+
     case "ZodEnum":
     case "ZodNativeEnum":
       return {
         name,
         type: "STRING",
       };
+
     case "ZodOptional":
     case "ZodNullable": {
       const child = convertAny(name, type._def.innerType);
@@ -162,26 +176,47 @@ const convertAny = (name: string, type: ZodTypeAny): TableField | undefined => {
         name,
       };
     }
+
     case "ZodDefault":
+      // Ignore the type
       return convertAny(name, type._def.innerType);
+
     case "ZodEffects":
+      // Ignore the type
       return convertAny(name, type._def.schema);
+
     case "ZodUndefined":
     case "ZodNull":
-    case "ZodAny":
     case "ZodUnknown":
     case "ZodNever":
     case "ZodVoid":
     case "ZodFunction":
     case "ZodPromise":
     case "ZodLazy":
+      // Ignore the field
       return;
+
+    case "ZodUnion":
+    case "ZodDiscriminatedUnion":
+    case "ZodIntersection":
+      throw new Error(
+        `The multiple type "${type._def.typeName}" is not supported in Zoq. Must be translated into a single type supported by BigQuery before conversion. See https://cloud.google.com/bigquery/docs/reference/standard-sql/data-types`
+      );
+
+    case "ZodAny":
+      throw new Error(
+        `The ambiguous type "${type._def.typeName}" is not supported in Zoq. Must be translated into the types supported by BigQuery before conversion. See https://cloud.google.com/bigquery/docs/reference/standard-sql/data-types`
+      );
+
     default:
       throw new Error(
-        `Type "${type._def.typeName}" is not supported in zoq. Must be translated into the types supported by BigQuery before conversion. See https://cloud.google.com/bigquery/docs/reference/standard-sql/data-types`
+        `The unknown type "${type._def.typeName}" is not supported in Zoq. Must be translated into the types supported by BigQuery before conversion. See https://cloud.google.com/bigquery/docs/reference/standard-sql/data-types`
       );
   }
 };
 
+// https://cloud.google.com/bigquery/docs/reference/standard-sql/data-types#date_type
 export const RegExpDate = /\d{4}-\d{2}-\d{2}/;
+
+// https://cloud.google.com/bigquery/docs/reference/standard-sql/data-types#time_type
 export const RegExpTime = /\d{2}:\d{2}:\d{2}(:?.\d{1,6})?/;

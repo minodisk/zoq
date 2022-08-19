@@ -13,11 +13,13 @@
     "url": "https://github.com/minodisk/zoq/issues"
   },
   "homepage": "https://github.com/minodisk/zoq#readme",
+  "module": "./esm/index.js",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
   "scripts": {
     "build": "run-p build:*",
-    "build:ts": "esbuild ./src/index.ts --outfile=./lib/index.js --format=cjs --platform=node",
+    "build:esm": "esbuild ./src/index.ts --outfile=./esm/index.js --format=esm --platform=node",
+    "build:cjs": "esbuild ./src/index.ts --outfile=./lib/index.js --format=cjs --platform=node",
     "build:dts": "tsc --declaration --emitDeclarationOnly",
     "build-watch": "npm run build:ts -- --watch",
     "validation": "run-p check test-coverage",
