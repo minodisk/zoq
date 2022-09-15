@@ -4,7 +4,6 @@ import type { ZodObject, ZodRawShape, ZodTypeAny } from "zod";
 export const convert = <T extends ZodRawShape>(
   type: ZodObject<T>
 ): Array<TableField> => {
-  console.log(type.shape);
   return Object.entries(type.shape)
     .map(([name, value]) => convertAny(name, value))
     .filter(isField);
