@@ -2,7 +2,7 @@
   "name": "zoq",
   "displayName": "Zoq",
   "description": "Convert Zod to BigQuery Schema",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "license": "Apache-2",
   "author": "minodisk",
   "repository": {
