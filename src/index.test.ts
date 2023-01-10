@@ -432,32 +432,46 @@ describe(`convert`, () => {
     expect(convert(fields)).toStrictEqual([]);
   });
 
-  it(`should throw Error with ZodAny`, () => {
+  it(`should convert ZodAny`, () => {
     const fields = z.object({
       any: z.any(),
       nullable: z.any().nullable(),
     });
-    expect(() => convert(fields)).toThrow(
-      /^The ambiguous type "ZodAny" is not supported in Zoq\./
-    );
+    expect(convert(fields)).toStrictEqual([
+      {
+        name: "any",
+        type: "JSON",
+      },
+      {
+        name: "nullable",
+        type: "JSON",
+        mode: "NULLABLE",
+      },
+    ]);
   });
 
-  it(`should not support Union`, () => {
+  it(`should convert Union`, () => {
     const fields = z.object({
       union: z.union([z.number(), z.string()]),
     });
-    expect(() => convert(fields)).toThrow(
-      /^The multiple type "ZodUnion" is not supported in Zoq\./
-    );
+    expect(convert(fields)).toStrictEqual([
+      {
+        name: "union",
+        type: "JSON",
+      },
+    ]);
   });
 
   it(`should not support Union created with .or()`, () => {
     const fields = z.object({
       union: z.number().or(z.string()),
     });
-    expect(() => convert(fields)).toThrow(
-      /^The multiple type "ZodUnion" is not supported in Zoq\./
-    );
+    expect(convert(fields)).toStrictEqual([
+      {
+        name: "union",
+        type: "JSON",
+      },
+    ]);
   });
 
   it(`should not support Discriminated Union`, () => {
@@ -467,9 +481,12 @@ describe(`convert`, () => {
         z.object({ type: z.literal("b"), b: z.string() }),
       ]),
     });
-    expect(() => convert(fields)).toThrow(
-      /^The multiple type "ZodDiscriminatedUnion" is not supported in Zoq\./
-    );
+    expect(convert(fields)).toStrictEqual([
+      {
+        name: "discriminatedUnion",
+        type: "JSON",
+      },
+    ]);
   });
 
   it(`should not support Intersection`, () => {
@@ -479,9 +496,12 @@ describe(`convert`, () => {
         z.union([z.number(), z.string(), z.boolean()])
       ),
     });
-    expect(() => convert(fields)).toThrow(
-      /^The multiple type "ZodIntersection" is not supported in Zoq\./
-    );
+    expect(convert(fields)).toStrictEqual([
+      {
+        name: "intersection",
+        type: "JSON",
+      },
+    ]);
   });
 
   it(`should not support Intersection created with .and()`, () => {
@@ -490,9 +510,12 @@ describe(`convert`, () => {
         .union([z.number(), z.string()])
         .and(z.union([z.number(), z.boolean()])),
     });
-    expect(() => convert(fields)).toThrow(
-      /^The multiple type "ZodIntersection" is not supported in Zoq\./
-    );
+    expect(convert(fields)).toStrictEqual([
+      {
+        name: "intersection",
+        type: "JSON",
+      },
+    ]);
   });
 
   it(`should not support unknown type`, () => {

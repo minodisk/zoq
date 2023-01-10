@@ -198,14 +198,11 @@ const convertAny = (name: string, type: ZodTypeAny): TableField | undefined => {
     case "ZodUnion":
     case "ZodDiscriminatedUnion":
     case "ZodIntersection":
-      throw new Error(
-        `The multiple type "${type._def.typeName}" is not supported in Zoq. Must be translated into a single type supported by BigQuery before conversion. See https://cloud.google.com/bigquery/docs/reference/standard-sql/data-types`
-      );
-
     case "ZodAny":
-      throw new Error(
-        `The ambiguous type "${type._def.typeName}" is not supported in Zoq. Must be translated into the types supported by BigQuery before conversion. See https://cloud.google.com/bigquery/docs/reference/standard-sql/data-types`
-      );
+      return {
+        name,
+        type: "JSON",
+      };
 
     default:
       throw new Error(
